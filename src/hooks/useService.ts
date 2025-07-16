@@ -1,9 +1,9 @@
-import {useQuery} from "@tanstack/react-query";
-import apiClient from "../services/api.ts";
+import {useQuery} from "@tanstack/react-query"
+import apiClient from "../services/api.ts"
 
 const fetchService = async (id: string) => {
-    const response = await apiClient.get(`${id}`);
-    return response.data;
+    const response = await apiClient.get(`${id}`)
+    return response.data
 }
 
 const useService = (id: string): {
@@ -18,13 +18,21 @@ const useService = (id: string): {
     } = useQuery({
         queryKey: ['service', id],
         queryFn: () => fetchService(id)
-    });
+    })
+
+    if (!id || id.trim() === '') {
+        return {
+            data: undefined,
+            isLoading: false,
+            isError: false,
+        }
+    }
 
     return {
         data,
         isLoading,
         isError,
-    };
-};
+    }
+}
 
-export default useService;
+export default useService
